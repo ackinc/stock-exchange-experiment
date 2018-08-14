@@ -7,6 +7,7 @@ const middleware = require('./middleware');
 const server = http.createServer((req, res) => {
     middleware.processRequestBody(req, err => {
         if (err && !req.connection.destroyed) {
+            console.error(err);
             res.statusCode = 400;
             res.end(err.message);
         } else if (req.method === 'POST' && req.url === '/bid') {

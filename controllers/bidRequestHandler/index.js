@@ -3,8 +3,9 @@ const helpers = require('./helpers');
 
 function bidRequestHandler(req, res) {
     if (!req.body.hasOwnProperty('basebid')) {
+        const msg = `Aborting bid as required parameter 'basebid' missing from request body.`;
         res.statusCode = 400;
-        res.end(`Required parameter 'basebid' missing from request body`);
+        res.end(msg);
     } else {
         db.getCompanies({}, (err, companies) => {
             if (err) {
