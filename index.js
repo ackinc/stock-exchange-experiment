@@ -4,7 +4,7 @@ const config = require('./config');
 const controllers = require('./controllers');
 const middleware = require('./middleware');
 
-http.createServer((req, res) => {
+const server = http.createServer((req, res) => {
     middleware.processRequestBody(req, err => {
         if (err && !req.connection.destroyed) {
             res.statusCode = 400;
@@ -20,3 +20,5 @@ http.createServer((req, res) => {
     if (!this.listening) throw new Error(`HTTP server is not listening for connections`);
     else console.log(`HTTP server listening on port ${config.port}`);
 });
+
+module.exports = server; // for integration tests
