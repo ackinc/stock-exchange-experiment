@@ -1,33 +1,33 @@
-const db = require('../db');
+const db = require('../../db');
+const helpers = require('./helpers');
 
 function bidRequestHandler(req, res) {
-    if (req.body.basebid === undefined) {
+    if (!req.body.hasOwnProperty('basebid')) {
         res.statusCode = 400;
         res.end(`Required parameter 'basebid' missing from request body`);
     } else {
         db.getCompanies({}, (err, companies) => {
             if (err) {
+                console.error(err);
                 res.statusCode = 500;
-                res.end('Internal server error');
+                res.end('Database error');
             } else {
-                companies = companies.filter(c => {
-                    const passes_country_check = req.body.countrycode === undefined || c.Countries.indexOf(req.body.countrycode.toUpperCase()) > -1;
-                    const passes_category_check = req.body.category === undefined || c.Categories.indexOf(req.body.category.toLowerCase()) > -1;
-                    return passes_category_check && passes_country_check;
-                });
+                companies = helpers.baseTargetingCheck(companies, req.body.countrycode, req.body.category);
                 if (companies.length === 0) return res.end(`No Companies Passed From Targeting`);
 
-                companies = companies.filter(c => c.Budget > 0);
+                companies = helpers.budgetCheck(companies);
                 if (companies.length === 0) return res.end(`No Companies Passed From Budget`);
 
-                companies = companies.filter(c => req.body.basebid >= c.Bid);
+                companies = helpers.baseBidCheck(companies, req.body.basebid);
                 if (companies.length === 0) return res.end(`No Companies Passed From BaseBid Check`);
 
-                const winner = companies.reduce((acc, c) => c.Bid > acc.Bid ? c : acc, companies[0]);
+                const winner = helpers.chooseWinner(companies);
+
                 db.updateCompany(winner.CompanyID, { Budget: winner.Budget - winner.Bid }, err => {
                     if (err) {
+                        console.error(err);
                         res.statusCode = 500;
-                        res.end('Internal server error');
+                        res.end('Database error');
                     } else {
                         res.end(`Winner: ${winner.CompanyID}`);
                     }
