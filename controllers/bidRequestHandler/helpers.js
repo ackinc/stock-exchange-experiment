@@ -14,7 +14,8 @@ function baseBidCheck(companies, basebid) {
     return companies.filter(c => basebid >= c.Bid);
 }
 
-// selects the company with the highest "Bid" attribute from non-empty array <companies>
+// selects the company with the highest "Bid" attribute from <companies>
+// returns undefined if companies is an empty array
 function chooseWinner(companies) {
     return companies.reduce((acc, c) => c.Bid > acc.Bid ? c : acc, companies[0])
 }
