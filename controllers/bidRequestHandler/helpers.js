@@ -1,17 +1,51 @@
 function baseTargetingCheck(companies, countrycode, category) {
-    return companies.filter(c => {
+    const msgs = [];
+
+    const filtered_companies = companies.filter(c => {
         const passes_country_check = countrycode === undefined || c.Countries.indexOf(countrycode.toUpperCase()) > -1;
         const passes_category_check = category === undefined || c.Categories.indexOf(category.toLowerCase()) > -1;
-        return passes_category_check && passes_country_check;
+        const passed = passes_country_check && passes_category_check;
+
+        msgs.push(`{${c.CompanyID} ${passed ? 'passed' : 'failed'}}`);
+
+        return passed;
     });
+
+    process.stdout.write(` Base targeting check: ${msgs.join(',')}.`);
+
+    return filtered_companies;
 }
 
 function budgetCheck(companies) {
-    return companies.filter(c => c.Budget >= c.Bid);
+    const msgs = [];
+
+    const filtered_companies = companies.filter(c => {
+        const passed = c.Budget >= c.Bid;
+
+        msgs.push(`{${c.CompanyID} ${passed ? 'passed' : 'failed'}}`);
+
+        return passed;
+    });
+
+    process.stdout.write(` Budget check: ${msgs.join(',')}.`);
+
+    return filtered_companies;
 }
 
 function baseBidCheck(companies, basebid) {
-    return companies.filter(c => basebid >= c.Bid);
+    const msgs = [];
+
+    filtered_companies = companies.filter(c => {
+        const passed = basebid >= c.Bid;
+
+        msgs.push(`{${c.CompanyID} ${passed ? 'passed' : 'failed'}}`);
+
+        return passed;
+    });
+
+    process.stdout.write(` Base bid check: ${msgs.join(',')}.`);
+
+    return filtered_companies;
 }
 
 // selects the company with the highest "Bid" attribute from <companies>
