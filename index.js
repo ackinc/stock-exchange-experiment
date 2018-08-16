@@ -5,6 +5,8 @@ const controllers = require('./controllers');
 const middleware = require('./middleware');
 
 const server = http.createServer((req, res) => {
+    res.json = sendJSONResponse;
+
     middleware.processRequestBody(req, err => {
         if (err && !req.connection.destroyed) {
             console.error(err);
@@ -21,5 +23,11 @@ const server = http.createServer((req, res) => {
     if (!this.listening) throw new Error(`HTTP server is not listening for connections`);
     else console.log(`HTTP server listening on port ${config.port}`);
 });
+
+function sendJSONResponse(body, status = 200) {
+    this.statusCode = status;
+    this.setHeader('Content-Type', 'application/json');
+    this.end(JSON.stringify(body));
+}
 
 module.exports = server; // for integration tests
