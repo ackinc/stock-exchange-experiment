@@ -6,7 +6,7 @@ const util = require('../../util');
 describe(`bidRequestHandler's helper methods`, () => {
     const companies = [
         { CompanyID: "C1", Budget: 100, Bid: 10, Countries: ["US", "FR"], Categories: ["automobile", "it"] },
-        { CompanyID: "C2", Budget: 0, Bid: 20, Countries: ["RU", "FR"], Categories: ["finance", "it"] },
+        { CompanyID: "C2", Budget: 10, Bid: 20, Countries: ["RU", "FR"], Categories: ["finance", "it"] },
         { CompanyID: "C3", Budget: 200, Bid: 30, Countries: ["US", "IN"], Categories: ["automobile", "finance"] }
     ];
 
@@ -36,9 +36,9 @@ describe(`bidRequestHandler's helper methods`, () => {
     });
 
     describe('budgetCheck', () => {
-        it('should return only those companies with a non-zero budget', () => {
+        it('should return only those companies that have a budget to sell stock', () => {
             const tmp = helpers.budgetCheck(companies);
-            assert.isTrue(tmp.length === 2 && util.andMap(tmp, c => c.Budget > 0));
+            assert.isTrue(tmp.length === 2 && util.andMap(tmp, c => c.Budget >= c.Bid));
         });
     });
 

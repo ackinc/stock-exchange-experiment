@@ -7,7 +7,7 @@ function baseTargetingCheck(companies, countrycode, category) {
 }
 
 function budgetCheck(companies) {
-    return companies.filter(c => c.Budget > 0);
+    return companies.filter(c => c.Budget >= c.Bid);
 }
 
 function baseBidCheck(companies, basebid) {
