@@ -1,3 +1,11 @@
+NOTE
+
+The instructions below for starting the server and running the tests assume you have node v8.7 or higher and npm5 installed
+
+
+------------------------------------
+
+
 STARTING THE SERVER
 
 1. Modify db details in config.js to point to a running mongodb server
