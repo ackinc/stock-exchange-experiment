@@ -10,13 +10,12 @@ const server = http.createServer((req, res) => {
     middleware.processRequestBody(req, err => {
         if (err && !req.connection.destroyed) {
             console.error(err);
-            res.statusCode = 400;
-            res.end(err.message);
+            res.json({ success: false, message: err.message }, 400);
         } else if (req.method === 'POST' && req.url === '/bid') {
             controllers.bidRequestHandler(req, res);
         } else {
             res.statusCode = 404;
-            res.end('Endpoint not found');
+            res.end();
         }
     });
 }).listen(config.port, function () {
