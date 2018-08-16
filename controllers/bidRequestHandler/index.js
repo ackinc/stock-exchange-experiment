@@ -1,6 +1,10 @@
 const db = require('../../db');
 const helpers = require('./helpers');
 
+// Request body can have the following parameters:
+// basebid - Number | REQUIRED
+// countrycode - String
+// category - String
 function bidRequestHandler(req, res) {
     if (!req.body.hasOwnProperty('basebid')) {
         const msg = `Aborting bid as required parameter 'basebid' missing from request body.`;
