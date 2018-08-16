@@ -8,7 +8,9 @@ const server = http.createServer((req, res) => {
     res.json = sendJSONResponse;
 
     middleware.processRequestBody(req, err => {
-        if (err && !req.connection.destroyed) {
+        if (req.connection.destroyed) {
+            // do nothing
+        } else if (err) {
             console.error(err);
             res.json({ success: false, message: err.message }, 400);
         } else if (req.method === 'POST' && req.url === '/bid') {
