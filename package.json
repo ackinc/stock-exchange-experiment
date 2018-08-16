@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "node ./seed.js",
     "start": "node ./index.js > ./logs/app.log 2>./logs/err.log",
     "start:dev": "nodemon ./index.js",
     "test": "mocha \"controllers/**/*.test.js\" \"util/**/*.test.js\" \"integration_tests/index.js\""
