@@ -24,11 +24,14 @@ function bidRequestHandler(req, res) {
 
                 const winner = helpers.chooseWinner(companies);
 
-                db.updateCompany(winner.CompanyID, { Budget: winner.Budget - winner.Bid }, err => {
+                db.buyCompanyStock(winner.CompanyID, winner.Bid, (err, success) => {
                     if (err) {
                         console.error(err);
                         res.statusCode = 500;
                         res.end('Database error');
+                    } else if (!success) {
+                        res.statusCode = 409;
+                        res.end(`Another bidder has just exhausted the winning company's budget. Please try again.`);
                     } else {
                         res.end(`Winner: ${winner.CompanyID}`);
                     }
