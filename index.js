@@ -9,6 +9,7 @@ const server = http.createServer((req, res) => {
 
     middleware.processRequestBody(req, err => {
         if (req.connection.destroyed) {
+            // connection was destroyed because too much data was being sent in request body
             // do nothing
         } else if (err) {
             console.error(err);
