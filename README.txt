@@ -57,4 +57,3 @@ Response can be one of:
 PROBLEMS
 
 1. No multi-threading.
-2. Bug in how async code is handled in bidRequestHandler will cause logs from two different, simultaneous requests to become interleaved in the log files, though no DB corruption will occur. I realized this issue too late to fix in time.

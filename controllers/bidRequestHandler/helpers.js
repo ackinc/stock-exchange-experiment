@@ -1,4 +1,4 @@
-function baseTargetingCheck(companies, countrycode, category) {
+function baseTargetingCheck(companies, countrycode, category, log = []) {
     const msgs = [];
 
     const filtered_companies = companies.filter(c => {
@@ -11,12 +11,12 @@ function baseTargetingCheck(companies, countrycode, category) {
         return passed;
     });
 
-    process.stdout.write(` Base targeting check: ${msgs.join(',')}.`);
+    log.push(`Base targeting check: ${msgs.join(',')}.`);
 
     return filtered_companies;
 }
 
-function budgetCheck(companies) {
+function budgetCheck(companies, log = []) {
     const msgs = [];
 
     const filtered_companies = companies.filter(c => {
@@ -27,12 +27,12 @@ function budgetCheck(companies) {
         return passed;
     });
 
-    process.stdout.write(` Budget check: ${msgs.join(',')}.`);
+    log.push(`Budget check: ${msgs.join(',')}.`);
 
     return filtered_companies;
 }
 
-function baseBidCheck(companies, basebid) {
+function baseBidCheck(companies, basebid, log = []) {
     const msgs = [];
 
     filtered_companies = companies.filter(c => {
@@ -43,7 +43,7 @@ function baseBidCheck(companies, basebid) {
         return passed;
     });
 
-    process.stdout.write(` Base bid check: ${msgs.join(',')}.`);
+    log.push(`Base bid check: ${msgs.join(',')}.`);
 
     return filtered_companies;
 }
